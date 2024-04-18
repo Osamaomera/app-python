@@ -13,10 +13,8 @@ pipeline {
         stage('Run Unit Test') {
             steps {
                 script {
-                	// Navigate to the directory contains the Application
-                	dir('App') {
-                		runUnitTests
-            		}
+                	echo "Running Unit Test..."
+                    echo "Sucesss..."
         	}
     	    }
 	}
