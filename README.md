@@ -11,7 +11,7 @@ The Jenkins pipeline follows these stages to build, push, and deploy Docker imag
 
 2. **Remove Images:** Remove local Docker image from the Jenkins server.
 
-3. **Update Deployment Manifest and Deploy to OpenShift:** Update OpenShift deployment with the new image versions and deploy it to OpenShift cluster.
+3. **Update Deployment Manifest and Deploy to Kubernetes:** Update kubernetes deployment with the new image versions and deploy it to kubernetes cluster.
 
 ## Environment Variables
 
@@ -23,6 +23,19 @@ The following environment variables are used in the Jenkins pipeline:
   
 
 ## Pipeline Steps
+
+### Run Unit Test:
+
+```
+ stage('Run Unit Test') {
+            steps {
+                script {
+                	echo "Running Unit Test..."
+                    echo "Sucesss..."
+        	}
+    	    }
+	}
+```
 
 ### Build and Push to DockerHub:
 
@@ -45,8 +58,6 @@ stage('Build and Push to DockerHub') {
         }
 ```
 
-
-
 ### Remove Local Images:
 
 ```
@@ -59,22 +70,22 @@ stage('Remove Local Images') {
 
 ```
 
-### Update Deployment Manifest and Deploy to OpenShift:
+### Update Deployment Manifest and Deploy to kubernetes:
 
 ```
- stage('Update Deployment Manifest and Deploy to OpenShift') {
+ stage('Update Deployment Manifest and Deploy to Kubernetes') {
             steps {
                 script {
-                    // Update deployment.yaml with new Docker Hub image
+                    // Update deployment.yaml file with the new Docker image
                     sh "sed -i 's|image:.*|image: ${APP_IMAGE_NAME}:${BUILD_NUMBER}|g' ${DEPLOYMENT_PATH}"
 
-                    // Deploy updated manifest to OpenShift
+                    // Deploy updated manifest to K8s
                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                        sh "export KUBECONFIG=\$KUBECONFIG_FILE && oc apply -f ${DEPLOYMENT_PATH} -n ibrahim"
+                        sh "export KUBECONFIG=\$KUBECONFIG_FILE && kubectl apply -f ${DEPLOYMENT_PATH} -n Osama"
                     }
                 }
             }
-}
+    }
 ```
 
 ### Post-Build Actions
@@ -92,8 +103,8 @@ post {
 ```
 ----
 ### - Successfully run the pipeline
-![](https://github.com/IbrahimmAdel/Jenkins-Pipeline/blob/Master/screenshots/Screenshot%20from%202024-01-23%2015-51-23.png)
+![](https://github.com/Osamaomera/deploy-python-app-jenkins-k8s-/blob/main/Capture.PNG)
 ---
 
 ### - Deployment from OpenShift cluster
-![](https://github.com/IbrahimmAdel/Jenkins-Pipeline/blob/Master/screenshots/Screenshot%20from%202024-01-23%2015-50-05.png)
+![]()
