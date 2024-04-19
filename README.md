@@ -103,8 +103,8 @@ post {
 ```
 ----
 ### - Successfully run the pipeline
-![](https://github.com/Osamaomera/deploy-python-app-jenkins-k8s-/blob/main/Capture.PNG)
+![]()
 ---
 
 ### - Deployment from OpenShift cluster
-![]()
+![](https://github.com/Osamaomera/deploy-python-app-jenkins-k8s-/blob/main/Capture.PNG)
