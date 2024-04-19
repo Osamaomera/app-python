@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
-        Dockerfile_PATH      = './App/Dockerfile'
+        Dockerfile_PATH      = './App'
         DEPLOYMENT_PATH     = './k8s/myapp-deployment.yaml'     //Path to deployment.yaml file in github repo
         APP_IMAGE_NAME   		    = 'osayman74/python-app'     			// DockerHub repo/image name.
         k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    sh "docker build -t ${APP_IMAGE_NAME}:${BUILD_NUMBER} -f ${Dockerfile_PATH} "
+                    sh "docker build -t ${APP_IMAGE_NAME}:${BUILD_NUMBER} -f ${Dockerfile_PATH} . "
 
                     // Log in to DockerHub 
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
