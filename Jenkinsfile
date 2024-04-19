@@ -4,8 +4,11 @@ pipeline {
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
-        imageName   		    = 'osayman74/python-app'     			// DockerHub repo/image name.
-	k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
+        Dockerfile_PATH      = './App/Dockerfile'
+        DEPLOYMENT_PATH     = './k8s/myapp-deployment.yaml'     //Path to deployment.yaml file in github repo
+        APP_IMAGE_NAME   		    = 'osayman74/python-app'     			// DockerHub repo/image name.
+	    BUILD_NUMBER              = 'v2'
+        k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
     }
     
     stages {       
@@ -19,30 +22,44 @@ pipeline {
     	    }
 	}
 	
-       
-        stage('Build and Push Docker Image') {
+       stage('Build and Push to DockerHub') {
             steps {
                 script {
-                	// Navigate to the directory contains Dockerfile
-                 	dir('App') {
-                 		buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
-                        
-                    	}
+                    // Build Docker image
+                    sh "docker build -t ${APP_IMAGE_NAME}:${BUILD_NUMBER} -f ${Dockerfile_PATH} ."
+
+                    // Log in to DockerHub 
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD"
+                    }
+
+                    // Push image to Docker Hub
+                    sh "docker push ${APP_IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
 
-        stage('Deploy on k8s Cluster') {
+        stage('Remove Local Images') {
             steps {
-                script { 
-                        // Navigate to the directory contains kubernetes YAML files
-                	dir('k8s') {
-				deployOnKubernetes("${k8sCredentialsID}", "${imageName}")
-                    	}
-                }
+                // Delete local Docker image after push them to DockerHub
+                sh "docker rmi ${APP_IMAGE_NAME}:${BUILD_NUMBER}"
             }
         }
+
+        stage('Update Deployment Manifest and Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Update deployment.yaml file with the new Docker image
+                    sh "sed -i 's|image:.*|image: ${APP_IMAGE_NAME}:${BUILD_NUMBER}|g' ${DEPLOYMENT_PATH}"
+
+                    // Deploy updated manifest to K8s
+                   withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                        sh "export KUBECONFIG=\$KUBECONFIG_FILE && kubectl apply -f ${DEPLOYMENT_PATH} -n Osama"
+                    }
+                }
+            }
     }
+}
 
     post {
         success {
