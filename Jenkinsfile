@@ -1,3 +1,4 @@
+@Library('Jenkins-Shared-Library')_
 pipeline {
     agent any
     
@@ -10,29 +11,13 @@ pipeline {
     }
     
     stages {       
-
-        stage('Run Unit Test') {
+	    
+       stage('Build and Push Docker Image') {
             steps {
                 script {
-                	echo "Running Unit Test..."
-                    echo "Sucesss..."
-        	}
-    	    }
-	}
-	
-       stage('Build and Push to DockerHub') {
-            steps {
-                script {
-                    // Build Docker image
-                    sh "docker build -t ${APP_IMAGE_NAME}:${BUILD_NUMBER} -f ${Dockerfile_PATH} . "
-
-                    // Log in to DockerHub 
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        sh "docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD"
-                    }
-
-                    // Push image to Docker Hub
-                    sh "docker push ${APP_IMAGE_NAME}:${BUILD_NUMBER}"
+                	// Navigate to the directory contains Dockerfile
+                 	dir('App') {
+                 		buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                 }
             }
         }
