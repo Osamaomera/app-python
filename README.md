@@ -106,5 +106,5 @@ post {
 ![]()
 ---
 
-### - Deployment from OpenShift cluster
+### - Deployment from Kubernetes cluster
 ![](https://github.com/Osamaomera/deploy-python-app-jenkins-k8s-/blob/main/Capture.PNG)
