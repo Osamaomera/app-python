@@ -1,17 +1,15 @@
 # Jenkins Pipeline 
 
-> This document provides an overview of the Jenkins pipeline for building and deploying Dockerized applications to OpenShift cluster.
+> This document provides an overview of the Jenkins pipeline for building and deploying Dockerized applications toKubernetes cluster.
 
 
 ## Pipeline Overview
 
-The Jenkins pipeline follows these stages to build, push, and deploy Docker images to dockerhub and an OpenShift cluster:
+The Jenkins pipeline follows these stages to build, push, and deploy Docker images to dockerhub and a Kubernetes cluster:
 
 1. **Build and Push to DockerHub:** Build and push image to DockerHub.
 
-2. **Remove Images:** Remove local Docker image from the Jenkins server.
-
-3. **Update Deployment Manifest and Deploy to Kubernetes:** Update kubernetes deployment with the new image versions and deploy it to kubernetes cluster.
+2. **Update Deployment Manifest and Deploy to Kubernetes:** Update kubernetes deployment with the new image versions and deploy it to kubernetes cluster.
 
 ## Environment Variables
 
