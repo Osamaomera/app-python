@@ -1,10 +1,10 @@
-@Library('shared-library') _
+@Library('github.com/Osamaomera/shared_library'@main) _
 pipeline {
     agent any
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
-	imageName                   =  'osayman74/python-app'                           // DockerHub repo/image_name.
+	imageName                   = 'osayman74/python-app'                           // DockerHub repo/image_name.
         k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
     }
     
