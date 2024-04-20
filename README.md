@@ -17,44 +17,25 @@ The Jenkins pipeline follows these stages to build, push, and deploy Docker imag
 
 The following environment variables are used in the Jenkins pipeline:
 
-- `APP_IMAGE_NAME`: github_repo/image_name.
+- `APP_IMAGE_NAME`: dockerhub_repo/image_name.
 - `Dockerfile_PATH`: path to Dockerfile in github repo.
 - `DEPLOYMENT_PATH`: path to deployment file in github repo.
   
 
 ## Pipeline Steps
 
-### Run Unit Test:
-
-```
- stage('Run Unit Test') {
-            steps {
-                script {
-                	echo "Running Unit Test..."
-                    echo "Sucesss..."
-        	}
-    	    }
-	}
-```
-
 ### Build and Push to DockerHub:
 
 ```
-stage('Build and Push to DockerHub') {
+ stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Build Docker image
-                    sh "docker build -t ${APP_IMAGE_NAME}:${BUILD_NUMBER} -f ${Dockerfile_PATH} ."
-
-                    // Log in to DockerHub 
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        sh "docker login -u \$DOCKERHUB_USERNAME -p \$DOCKERHUB_PASSWORD"
-                    }
-
-                    // Push image to Docker Hub
-                    sh "docker push ${APP_IMAGE_NAME}:${BUILD_NUMBER}"
+                	// Navigate to the directory contains Dockerfile
+                 	dir('App') {
+                 		buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                 }
-            }
+              }
+	    }
         }
 ```
 
