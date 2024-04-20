@@ -17,7 +17,8 @@ pipeline {
                  	dir('App') {
                  		buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                 }
-            }
+              }
+	    }
         }
 
        stage('Deploy on k8s Cluster') {
