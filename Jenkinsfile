@@ -6,7 +6,6 @@ pipeline {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
 	imageName                   = 'osayman74/python-app2'                           // DockerHub repo/image_name.
         k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.
-	REPOSITORY = 'registry.mydomain.com'
     }
     
     stages {       
