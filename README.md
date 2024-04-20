@@ -39,34 +39,19 @@ The following environment variables are used in the Jenkins pipeline:
         }
 ```
 
-### Remove Local Images:
-
-```
-stage('Remove Local Images') {
-            steps {
-                // Delete local Docker image
-                sh "docker rmi ${APP_IMAGE_NAME}:${BUILD_NUMBER}"
-            }
-        }
-
-```
-
 ### Update Deployment Manifest and Deploy to kubernetes:
 
 ```
- stage('Update Deployment Manifest and Deploy to Kubernetes') {
+ stage('Deploy on k8s Cluster') {
             steps {
-                script {
-                    // Update deployment.yaml file with the new Docker image
-                    sh "sed -i 's|image:.*|image: ${APP_IMAGE_NAME}:${BUILD_NUMBER}|g' ${DEPLOYMENT_PATH}"
-
-                    // Deploy updated manifest to K8s
-                   withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                        sh "export KUBECONFIG=\$KUBECONFIG_FILE && kubectl apply -f ${DEPLOYMENT_PATH} -n Osama"
-                    }
+                script { 
+                        // Navigate to the directory contains kubernetes YAML files
+                	dir('k8s') {
+				deployOnKubernetes("${k8sCredentialsID}", "${imageName}")
+                    	}
                 }
             }
-    }
+        }
 ```
 
 ### Post-Build Actions
