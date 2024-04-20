@@ -4,6 +4,7 @@ pipeline {
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
+	imageName                   =  'osayman74/python-app'                           // DockerHub repo/image_name.
         k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
     }
     
