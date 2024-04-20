@@ -4,9 +4,6 @@ pipeline {
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
-        Dockerfile_PATH      = './App'
-        DEPLOYMENT_PATH     = './k8s/myapp-deployment.yaml'     //Path to deployment.yaml file in github repo
-        APP_IMAGE_NAME   		    = 'osayman74/python-app'     			// DockerHub repo/image name.
         k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
     }
     
