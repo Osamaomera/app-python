@@ -1,6 +1,6 @@
 # Jenkins Pipeline 
 
-> This document provides an overview of the Jenkins pipeline for building and deploying Dockerized applications toKubernetes cluster.
+> This document provides an overview of the Jenkins pipeline for building and deploying Dockerized applications to Kubernetes cluster.
 
 
 ## Pipeline Overview
