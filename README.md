@@ -66,6 +66,9 @@ post {
     }
 ```
 ----
+### - Successfully the image pushed to repo of DockerHub
+![](image_pushed.PNG)
+
 ### - Successfully run the pipeline
 ![]()
 ---
