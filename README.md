@@ -70,7 +70,8 @@ post {
 ![](image_pushed.PNG)
 
 ### - Successfully run the pipeline
-![]()
+![](IMG_7082.JPG)
+![](IMG_7083.JPG)
 ---
 
 ### - Deployment from Kubernetes cluster
