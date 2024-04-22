@@ -76,4 +76,4 @@ post {
 ---
 
 ### - Deployment from Kubernetes cluster
-![](https://github.com/Osamaomera/deploy-python-app-jenkins-k8s-/blob/main/Capture.PNG)
+![](IMG_7084.JPG)
