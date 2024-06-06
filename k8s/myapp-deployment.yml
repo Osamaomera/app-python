@@ -16,7 +16,7 @@ spec:
         - name: app-container
           image: osayman74/python-app
           ports:
-          - containerPort: 81
+          - containerPort: 5000
 ---
 apiVersion: v1
 kind: Service
@@ -29,5 +29,5 @@ spec:
   ports:
   - protocl: TCP
     port: 81
-    targetPort: 81
+    targetPort: 5000
 
