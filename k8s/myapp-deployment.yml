@@ -9,7 +9,6 @@ spec:
       app: myapp-python
   template:
     metadata:
-      name: myapp-python
       labels:
         app: myapp-python
     spec:
@@ -31,3 +30,4 @@ spec:
   - protocl: TCP
     port: 81
     targetPort: 81
+
